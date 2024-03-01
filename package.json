@@ -1,0 +1,78 @@
+{
+  "name": "@meavitae/mv-filters",
+  "version": "1.0.0",
+  "description": "Meavitae Filters",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest --config ./vitest.config.ts",
+    "lint": "eslint --ext .js,.ts ./src",
+    "tsc": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MeaVitae/mv-filters.git"
+  },
+  "author": "Dan Robinson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MeaVitae/mv-filters/issues"
+  },
+  "homepage": "https://github.com/MeaVitae/mv-filters#readme",
+  "devDependencies": {
+    "@faker-js/faker": "^8.4.1",
+    "@meavitae/mv-types": "^1.0.4",
+    "@types/accounting": "^0.4.5",
+    "@typescript-eslint/eslint-plugin": "^7.1.0",
+    "@typescript-eslint/parser": "^7.1.0",
+    "eslint": "^8.57.0",
+    "eslint-config-standard": "^17.1.0",
+    "jsdom": "^24.0.0",
+    "liquidjs": "^10.10.1",
+    "standard": "^17.1.0",
+    "typescript": "^5.3.3",
+    "vitest": "^1.3.1"
+  },
+  "dependencies": {
+    "accounting": "^0.4.1",
+    "date-fns": "^3.3.1",
+    "n2words": "^1.19.1",
+    "title-case": "^4.3.1"
+  },
+  "standard": {
+    "env": {
+      "browser": true,
+      "commonjs": true,
+      "es6": true,
+      "node": true
+    }
+  },
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "es6": true
+    },
+    "plugins": [
+      "@typescript-eslint"
+    ],
+    "extends": [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/recommended",
+      "standard"
+    ],
+    "globals": {
+      "Atomics": "readonly",
+      "SharedArrayBuffer": "readonly"
+    },
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "ecmaVersion": 2020,
+      "sourceType": "module"
+    },
+    "rules": {
+      "no-undef": "off"
+    }
+  }
+}

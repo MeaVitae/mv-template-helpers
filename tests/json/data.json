@@ -1,0 +1,163 @@
+{
+  "contact": {
+    "contactId": "39353e5c-2c4d-458d-bc23-80b0238fbb37",
+    "type": "individual",
+    "firstName": "Nathan",
+    "middleNames": "Diego",
+    "lastName": "Jabłoński",
+    "dateOfBirth": 1532536052121,
+    "placeOfBirth": "Metairie",
+    "addresses": [
+      {
+        "street": "214 Collins Lane",
+        "city": "Farmington",
+        "region": "Illinois",
+        "postalCode": "67865-7840",
+        "country": "Macao"
+      },
+      {
+        "street": "2 Jim Lane",
+        "city": "Jimmville",
+        "region": "Jimtown",
+        "postalCode": "67865-7840",
+        "country": "Countrystan"
+      }
+    ],
+    "emailAddresses": [
+      {
+        "email": "carolinejankowski408@uol.info"
+      },
+      {
+        "email": "wei.yang@unaref.com"
+      }
+    ],
+    "phoneNumbers": [
+      {
+        "phoneNumber": "+236 62 46 6973"
+      },
+      {
+        "phoneNumber": "+231 87 43 8907"
+      }
+    ],
+    "prefix": "Ms",
+    "suffix": "",
+    "genderType": "Neutrois",
+    "genderIdentity": "Trans Male",
+    "jobTitle": "Chief Web Planner",
+    "organisationName": "Cronin, Oberbrunner and Beier",
+    "website": "https://in.io",
+    "createdDate": 1691233351116,
+    "source": "Deutsche Telekom",
+    "searchKey": "336697"
+  },
+  "contacts": [
+    {
+      "contactId": "e45363465-2c4d-458d-bf65-80b0238fbb37",
+      "type": "individual",
+      "firstName": "Paul",
+      "middleNames": "",
+      "lastName": "Smith",
+      "dateOfBirth": 1532536052121,
+      "placeOfBirth": "Blahs",
+      "addresses": [
+        {
+          "street": "2 Jim Lane",
+          "city": "Jimmville",
+          "region": "Jimtown",
+          "postalCode": "67865-7840",
+          "country": "Countrystan"
+        }
+      ],
+      "emailAddresses": [
+        {
+          "email": "wei.yang@unaref.com"
+        }
+      ],
+      "phoneNumbers": [
+        {
+          "phoneNumber": "+231 87 43 8907"
+        }
+      ],
+      "prefix": "Mr",
+      "suffix": "",
+      "genderType": "Neutrois",
+      "genderIdentity": "Trans Male",
+      "jobTitle": "Chief Web Planner",
+      "organisationName": "Cronin, Oberbrunner and Beier",
+      "website": "https://in.io",
+      "createdDate": 1691233351116,
+      "source": "Deutsche Telekom",
+      "searchKey": "336697"
+    },
+    {
+      "contactId": "21553e5c-8261-458d-9372-80b0238fbb37",
+      "type": "individual",
+      "firstName": "James",
+      "middleNames": "Frank",
+      "lastName": "Lees",
+      "dateOfBirth": 1532536052121,
+      "placeOfBirth": "Metairie",
+      "addresses": [
+        {
+          "street": "214 Collins Lane",
+          "city": "Farmington",
+          "region": "Illinois",
+          "postalCode": "67865-7840",
+          "country": "Macao"
+        },
+        {
+          "street": "2 Jim Lane",
+          "city": "Jimmville",
+          "region": "Jimtown",
+          "postalCode": "67865-7840",
+          "country": "Countrystan"
+        }
+      ],
+      "emailAddresses": [
+        {
+          "email": "carolinejankowski408@uol.info"
+        }
+      ],
+      "phoneNumbers": [
+        {
+          "phoneNumber": "+236 62 46 6973"
+        }
+      ],
+      "prefix": "",
+      "suffix": "",
+      "genderType": "female",
+      "genderIdentity": "Female"
+    },
+    {
+      "contactId": "2342345fv-34234-458d-345-dsfvdxz34522",
+      "type": "individual",
+      "firstName": "Paul",
+      "middleNames": "",
+      "lastName": "Morpeth",
+      "dateOfBirth": 1532536052121,
+      "addresses": [
+        {
+          "street": "2 Big Street",
+          "city": "Bigcity",
+          "region": "Bigsville",
+          "postalCode": "ert3452-453",
+          "country": "Bigcountrystan"
+        }
+      ],
+      "emailAddresses": [
+        {
+          "email": "bing@uol.info"
+        }
+      ],
+      "phoneNumbers": [
+        {
+          "phoneNumber": "+123 62 46 6973"
+        }
+      ],
+      "prefix": "",
+      "suffix": "",
+      "genderType": "unknown",
+      "genderIdentity": ""
+    }
+  ]
+}
