@@ -1,4 +1,4 @@
-import mvFilters from '../dist'
+import mvTemplateHelpers from '../dist'
 import testData from './json/data.json'
 import { Liquid } from 'liquidjs'
 import { test, describe, expect, beforeEach } from 'vitest'
@@ -7,7 +7,7 @@ let engine
 
 beforeEach(async () => {
   engine = new Liquid()
-  engine.plugin(mvFilters)
+  engine.plugin(mvTemplateHelpers)
 })
 
 describe('MV Liquidjs filters and Tags', () => {

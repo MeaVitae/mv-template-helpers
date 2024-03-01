@@ -1,13 +1,13 @@
-# mv-filters
+# mv-template-helpers
 
 # Usage
 
 ```
 
 import { Liquid } from 'liquidjs';
-import mvFilters from '@meavitae/mv-filters';
+import mvTemplateHelpers from '@meavitae/mv-template-helpers';
 
 const liquid = new Liquid();
-liquid.plugin(mvFilters);
+liquid.plugin(mvTemplateHelpers);
 
 ```
