@@ -19,48 +19,43 @@ export default function (this: Liquid) {
 
   this.registerTag('majorNum', {
     parse: function (tagToken) {
-      const entry = tagToken.args
-
-      const currentClause = getCurrentClause()
-      this.updatedMajorNum = currentClause[0] + 1
-      this.updatedMajorTitle = typeof entry === 'string' ? entry : ''
-
-      setCurrentClause([this.updatedMajorNum, 0, 0])
-
-      addEntryToTOC({
-        clause: this.updatedMajorNum,
-        title: this.updatedMajorTitle
-      })
+      this.majorNumTitle = String(tagToken.args)
     },
 
     render: function () {
-      return `${this.updatedMajorNum}.${this.updatedMajorTitle && (' ' + this.updatedMajorTitle)}`
+      const currentClause = getCurrentClause()
+      const updatedMajorNum = currentClause[0] + 1
+
+      setCurrentClause([updatedMajorNum, 0, 0])
+
+      addEntryToTOC({
+        clause: updatedMajorNum,
+        title: this.updatedMajorTitle
+      })
+
+      return `${updatedMajorNum}.${this.majorNumTitle && (' ' + this.majorNumTitle)}`
     }
   })
 
   this.registerTag('minorNum', {
-    parse: function () {
-      this.currentClause = getCurrentClause()
-      this.updatedMinorNum = this.currentClause[1] + 1
-
-      setCurrentClause([this.currentClause[0], this.updatedMinorNum, 0])
-    },
-
     render: function () {
-      return `${this.currentClause[0]}.${this.updatedMinorNum}.`
+      const currentClause = getCurrentClause()
+      const updatedNum = currentClause[1] + 1
+
+      setCurrentClause([currentClause[0], updatedNum, 0])
+
+      return `${currentClause[0]}.${updatedNum}.`
     }
   })
 
   this.registerTag('subMinorNum', {
-    parse: function () {
-      this.currentClause = getCurrentClause()
-      this.updatedSubMinorNum = this.currentClause[2] + 1
-
-      setCurrentClause([this.currentClause[0], this.currentClause[1], this.updatedSubMinorNum])
-    },
-
     render: function () {
-      return `${this.currentClause[0]}.${this.currentClause[1]}.${this.updatedSubMinorNum}.`
+      const currentClause = getCurrentClause()
+      const updatedNum = currentClause[2] + 1
+
+      setCurrentClause([currentClause[0], currentClause[1], updatedNum])
+
+      return `${currentClause[0]}.${currentClause[1]}.${updatedNum}.`
     }
   })
 

@@ -1,4 +1,4 @@
-import mvTemplateHelpers from '../dist'
+import mvTemplateHelpers from '../src'
 import testData from './json/data.json'
 import { Liquid } from 'liquidjs'
 import { test, describe, expect, beforeEach } from 'vitest'
@@ -13,10 +13,10 @@ beforeEach(async () => {
 describe('MV Liquidjs filters and Tags', () => {
   describe('majorNum Tag', () => {
     test('it increments the major number by one everytime called and outputs', async () => {
-      const template = '{% majorNum 1st Major Num %} {% majorNum %} {% majorNum 3rd Major Num %}'
+      const template = '{% majorNum 1st Major Num %} {% if false %}{% majorNum %} {% endif %}{% majorNum 3rd Major Num %}'
       const output = await engine.parseAndRender(template)
 
-      expect(output).toEqual('1. 1st Major Num 2. 3. 3rd Major Num')
+      expect(output).toEqual('1. 1st Major Num 2. 3rd Major Num')
     })
   })
 

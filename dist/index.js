@@ -11,21 +11,34 @@ export default function () {
     const getCurrentClause = () => clauseArray;
     const setCurrentClause = (updatedTitleNumber) => { clauseArray = updatedTitleNumber; };
     const addEntryToTOC = (entry) => tableOfContentsArray.push(entry);
-    this.registerTag('majorNum', {
-        parse: function (tagToken) {
-            const entry = tagToken.args;
-            const currentClause = getCurrentClause();
-            this.updatedMajorNum = currentClause[0] + 1;
-            this.updatedMajorTitle = typeof entry === 'string' ? entry : '';
-            setCurrentClause([this.updatedMajorNum, 0, 0]);
-            addEntryToTOC({
-                clause: this.updatedMajorNum,
-                title: this.updatedMajorTitle
-            });
-        },
-        render: function () {
-            return `${this.updatedMajorNum}.${this.updatedMajorTitle && (' ' + this.updatedMajorTitle)}`;
-        }
+    // this.registerTag('majorNum', {
+    //   parse: function (tagToken) {
+    //     const entry = tagToken.args
+    //     const currentClause = getCurrentClause()
+    //     this.updatedMajorNum = currentClause[0] + 1
+    //     this.updatedMajorTitle = typeof entry === 'string' ? entry : ''
+    //     setCurrentClause([this.updatedMajorNum, 0, 0])
+    //     addEntryToTOC({
+    //       clause: this.updatedMajorNum,
+    //       title: this.updatedMajorTitle
+    //     })
+    //   },
+    //   render: function () {
+    //     return `${this.updatedMajorNum}.${this.updatedMajorTitle && (' ' + this.updatedMajorTitle)}`
+    //   }
+    // })
+    this.registerFilter('majorNum', (title) => {
+        console.log('THIS IS RUN');
+        const currentClause = getCurrentClause();
+        console.log('currentClause', currentClause);
+        const updatedMajorNum = currentClause[0] + 1;
+        const updatedMajorTitle = String(title);
+        setCurrentClause([updatedMajorNum, 0, 0]);
+        addEntryToTOC({
+            clause: updatedMajorNum,
+            title: updatedMajorTitle
+        });
+        return `${updatedMajorNum}.${updatedMajorTitle && (' ' + updatedMajorTitle)}`;
     });
     this.registerTag('minorNum', {
         parse: function () {
