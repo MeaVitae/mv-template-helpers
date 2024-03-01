@@ -11,53 +11,35 @@ export default function () {
     const getCurrentClause = () => clauseArray;
     const setCurrentClause = (updatedTitleNumber) => { clauseArray = updatedTitleNumber; };
     const addEntryToTOC = (entry) => tableOfContentsArray.push(entry);
-    // this.registerTag('majorNum', {
-    //   parse: function (tagToken) {
-    //     const entry = tagToken.args
-    //     const currentClause = getCurrentClause()
-    //     this.updatedMajorNum = currentClause[0] + 1
-    //     this.updatedMajorTitle = typeof entry === 'string' ? entry : ''
-    //     setCurrentClause([this.updatedMajorNum, 0, 0])
-    //     addEntryToTOC({
-    //       clause: this.updatedMajorNum,
-    //       title: this.updatedMajorTitle
-    //     })
-    //   },
-    //   render: function () {
-    //     return `${this.updatedMajorNum}.${this.updatedMajorTitle && (' ' + this.updatedMajorTitle)}`
-    //   }
-    // })
-    this.registerFilter('majorNum', (title) => {
-        console.log('THIS IS RUN');
-        const currentClause = getCurrentClause();
-        console.log('currentClause', currentClause);
-        const updatedMajorNum = currentClause[0] + 1;
-        const updatedMajorTitle = String(title);
-        setCurrentClause([updatedMajorNum, 0, 0]);
-        addEntryToTOC({
-            clause: updatedMajorNum,
-            title: updatedMajorTitle
-        });
-        return `${updatedMajorNum}.${updatedMajorTitle && (' ' + updatedMajorTitle)}`;
-    });
-    this.registerTag('minorNum', {
-        parse: function () {
-            this.currentClause = getCurrentClause();
-            this.updatedMinorNum = this.currentClause[1] + 1;
-            setCurrentClause([this.currentClause[0], this.updatedMinorNum, 0]);
+    this.registerTag('majorNum', {
+        parse: function (tagToken) {
+            this.majorNumTitle = String(tagToken.args);
         },
         render: function () {
-            return `${this.currentClause[0]}.${this.updatedMinorNum}.`;
+            const currentClause = getCurrentClause();
+            const updatedMajorNum = currentClause[0] + 1;
+            setCurrentClause([updatedMajorNum, 0, 0]);
+            addEntryToTOC({
+                clause: updatedMajorNum,
+                title: this.updatedMajorTitle
+            });
+            return `${updatedMajorNum}.${this.majorNumTitle && (' ' + this.majorNumTitle)}`;
+        }
+    });
+    this.registerTag('minorNum', {
+        render: function () {
+            const currentClause = getCurrentClause();
+            const updatedNum = currentClause[1] + 1;
+            setCurrentClause([currentClause[0], updatedNum, 0]);
+            return `${currentClause[0]}.${updatedNum}.`;
         }
     });
     this.registerTag('subMinorNum', {
-        parse: function () {
-            this.currentClause = getCurrentClause();
-            this.updatedSubMinorNum = this.currentClause[2] + 1;
-            setCurrentClause([this.currentClause[0], this.currentClause[1], this.updatedSubMinorNum]);
-        },
         render: function () {
-            return `${this.currentClause[0]}.${this.currentClause[1]}.${this.updatedSubMinorNum}.`;
+            const currentClause = getCurrentClause();
+            const updatedNum = currentClause[2] + 1;
+            setCurrentClause([currentClause[0], currentClause[1], updatedNum]);
+            return `${currentClause[0]}.${currentClause[1]}.${updatedNum}.`;
         }
     });
     this.registerFilter('numberToWords', (numberToConvert, locale) => {
