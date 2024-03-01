@@ -22,4 +22,4 @@ declare const localeLookupObject: {
     };
 };
 export default localeLookupObject;
-export type LocaleLookupKeys = keyof typeof localeLookupObject;
+export declare type LocaleLookupKeys = keyof typeof localeLookupObject;
