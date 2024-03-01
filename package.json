@@ -1,6 +1,6 @@
 {
   "name": "@meavitae/mv-template-helpers",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Meavitae Template Helpers",
   "type": "module",
   "main": "dist/index.js",
@@ -38,7 +38,6 @@
   "dependencies": {
     "accounting": "^0.4.1",
     "date-fns": "^3.3.1",
-    "n2words": "^1.19.1",
     "title-case": "^4.3.1"
   },
   "standard": {

@@ -1,7 +1,7 @@
 import genderLookup, { GenderType } from './utils/genderLookup'
 import groupStringLookup, { GroupStringType } from './utils/groupStringLookup'
 import localeLookupObject, { LocaleLookupKeys } from './utils/localeLookupObject'
-import n2words from 'n2words'
+// import n2words from 'n2words'
 import { Contact, Address, EmailAddress, PhoneNumber } from '@meavitae/mv-types'
 import { Value, Liquid, TagToken, Context, Emitter, Tag, TopLevelToken } from 'liquidjs'
 import { format } from 'date-fns'
@@ -59,38 +59,38 @@ export default function (this: Liquid) {
     }
   })
 
-  this.registerFilter('numberToWords', (numberToConvert: number, locale: LocaleLookupKeys) => {
-    try {
-      if (!numberToConvert) throw new Error('No number provided')
-      if (typeof numberToConvert !== 'number') throw new Error('It is not a number')
+  // this.registerFilter('numberToWords', (numberToConvert: number, locale: LocaleLookupKeys) => {
+  //   try {
+  //     if (!numberToConvert) throw new Error('No number provided')
+  //     if (typeof numberToConvert !== 'number') throw new Error('It is not a number')
 
-      return this.filters.capitalize(n2words(numberToConvert, {
-        lang: localeLookupObject[locale]?.n2wordsRef
-      }))
-    } catch (error) {
-      return String(numberToConvert)
-    }
-  })
+  //     return this.filters.capitalize(n2words(numberToConvert, {
+  //       lang: localeLookupObject[locale]?.n2wordsRef
+  //     }))
+  //   } catch (error) {
+  //     return String(numberToConvert)
+  //   }
+  // })
 
-  this.registerFilter('numberToMoneyWords', (numberToConvert: number, locale: LocaleLookupKeys) => {
-    try {
-      if (!numberToConvert) throw new Error('No number provided')
-      if (typeof numberToConvert !== 'number') throw new Error('It is not a number')
+  // this.registerFilter('numberToMoneyWords', (numberToConvert: number, locale: LocaleLookupKeys) => {
+  //   try {
+  //     if (!numberToConvert) throw new Error('No number provided')
+  //     if (typeof numberToConvert !== 'number') throw new Error('It is not a number')
 
-      locale = localeLookupObject[locale] ? locale : 'en-GB'
+  //     locale = localeLookupObject[locale] ? locale : 'en-GB'
 
-      const numberAsWords = this.filters.numberToWords(numberToConvert, locale)
-      const pointIndex = numberAsWords.indexOf('point')
-      const currencyUnit = localeLookupObject[locale].currencyUnit[numberToConvert > 1.99 || numberToConvert < 1 ? 1 : 0]
-      const fractionalUnit = localeLookupObject[locale].fractionalUnit
+  //     const numberAsWords = this.filters.numberToWords(numberToConvert, locale)
+  //     const pointIndex = numberAsWords.indexOf('point')
+  //     const currencyUnit = localeLookupObject[locale].currencyUnit[numberToConvert > 1.99 || numberToConvert < 1 ? 1 : 0]
+  //     const fractionalUnit = localeLookupObject[locale].fractionalUnit
 
-      return pointIndex > -1
-        ? `${numberAsWords.substring(0, pointIndex)}${currencyUnit} ${numberAsWords.substring(pointIndex)} ${fractionalUnit}`
-        : `${numberAsWords} ${currencyUnit}`
-    } catch (error) {
-      return String(numberToConvert)
-    }
-  })
+  //     return pointIndex > -1
+  //       ? `${numberAsWords.substring(0, pointIndex)}${currencyUnit} ${numberAsWords.substring(pointIndex)} ${fractionalUnit}`
+  //       : `${numberAsWords} ${currencyUnit}`
+  //   } catch (error) {
+  //     return String(numberToConvert)
+  //   }
+  // })
 
   this.registerFilter('formatDate', (date: number) => {
     try {

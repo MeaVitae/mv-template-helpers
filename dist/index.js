@@ -1,7 +1,6 @@
 import genderLookup from './utils/genderLookup';
 import groupStringLookup from './utils/groupStringLookup';
 import localeLookupObject from './utils/localeLookupObject';
-import n2words from 'n2words';
 import { format } from 'date-fns';
 import { formatMoney } from 'accounting';
 import { titleCase } from 'title-case';
@@ -42,39 +41,33 @@ export default function () {
             return `${currentClause[0]}.${currentClause[1]}.${updatedNum}.`;
         }
     });
-    this.registerFilter('numberToWords', (numberToConvert, locale) => {
-        try {
-            if (!numberToConvert)
-                throw new Error('No number provided');
-            if (typeof numberToConvert !== 'number')
-                throw new Error('It is not a number');
-            return this.filters.capitalize(n2words(numberToConvert, {
-                lang: localeLookupObject[locale]?.n2wordsRef
-            }));
-        }
-        catch (error) {
-            return String(numberToConvert);
-        }
-    });
-    this.registerFilter('numberToMoneyWords', (numberToConvert, locale) => {
-        try {
-            if (!numberToConvert)
-                throw new Error('No number provided');
-            if (typeof numberToConvert !== 'number')
-                throw new Error('It is not a number');
-            locale = localeLookupObject[locale] ? locale : 'en-GB';
-            const numberAsWords = this.filters.numberToWords(numberToConvert, locale);
-            const pointIndex = numberAsWords.indexOf('point');
-            const currencyUnit = localeLookupObject[locale].currencyUnit[numberToConvert > 1.99 || numberToConvert < 1 ? 1 : 0];
-            const fractionalUnit = localeLookupObject[locale].fractionalUnit;
-            return pointIndex > -1
-                ? `${numberAsWords.substring(0, pointIndex)}${currencyUnit} ${numberAsWords.substring(pointIndex)} ${fractionalUnit}`
-                : `${numberAsWords} ${currencyUnit}`;
-        }
-        catch (error) {
-            return String(numberToConvert);
-        }
-    });
+    // this.registerFilter('numberToWords', (numberToConvert: number, locale: LocaleLookupKeys) => {
+    //   try {
+    //     if (!numberToConvert) throw new Error('No number provided')
+    //     if (typeof numberToConvert !== 'number') throw new Error('It is not a number')
+    //     return this.filters.capitalize(n2words(numberToConvert, {
+    //       lang: localeLookupObject[locale]?.n2wordsRef
+    //     }))
+    //   } catch (error) {
+    //     return String(numberToConvert)
+    //   }
+    // })
+    // this.registerFilter('numberToMoneyWords', (numberToConvert: number, locale: LocaleLookupKeys) => {
+    //   try {
+    //     if (!numberToConvert) throw new Error('No number provided')
+    //     if (typeof numberToConvert !== 'number') throw new Error('It is not a number')
+    //     locale = localeLookupObject[locale] ? locale : 'en-GB'
+    //     const numberAsWords = this.filters.numberToWords(numberToConvert, locale)
+    //     const pointIndex = numberAsWords.indexOf('point')
+    //     const currencyUnit = localeLookupObject[locale].currencyUnit[numberToConvert > 1.99 || numberToConvert < 1 ? 1 : 0]
+    //     const fractionalUnit = localeLookupObject[locale].fractionalUnit
+    //     return pointIndex > -1
+    //       ? `${numberAsWords.substring(0, pointIndex)}${currencyUnit} ${numberAsWords.substring(pointIndex)} ${fractionalUnit}`
+    //       : `${numberAsWords} ${currencyUnit}`
+    //   } catch (error) {
+    //     return String(numberToConvert)
+    //   }
+    // })
     this.registerFilter('formatDate', (date) => {
         try {
             if (!date)
