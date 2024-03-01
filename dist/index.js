@@ -24,7 +24,7 @@ export default function () {
             });
         },
         render: function () {
-            return `<h1 class="major-number-title">${this.updatedMajorNum}${this.updatedMajorTitle && (' ' + this.updatedMajorTitle)}</h1>`;
+            return `${this.updatedMajorNum}.${this.updatedMajorTitle && (' ' + this.updatedMajorTitle)}`;
         }
     });
     this.registerTag('minorNum', {
@@ -34,7 +34,7 @@ export default function () {
             setCurrentClause([this.currentClause[0], this.updatedMinorNum, 0]);
         },
         render: function () {
-            return `<h2 class="minor-number-title">${this.currentClause[0]}.${this.updatedMinorNum}</h2>`;
+            return `${this.currentClause[0]}.${this.updatedMinorNum}.`;
         }
     });
     this.registerTag('subMinorNum', {
@@ -44,7 +44,7 @@ export default function () {
             setCurrentClause([this.currentClause[0], this.currentClause[1], this.updatedSubMinorNum]);
         },
         render: function () {
-            return `<h3 class="sub-minor-number-title">${this.currentClause[0]}.${this.currentClause[1]}.${this.updatedSubMinorNum}</h3>`;
+            return `${this.currentClause[0]}.${this.currentClause[1]}.${this.updatedSubMinorNum}.`;
         }
     });
     this.registerFilter('numberToWords', (numberToConvert, locale) => {

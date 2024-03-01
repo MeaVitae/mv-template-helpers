@@ -1,6 +1,6 @@
 {
   "name": "@meavitae/mv-template-helpers",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Meavitae Template Helpers",
   "type": "module",
   "main": "dist/index.js",
@@ -74,5 +74,8 @@
     "rules": {
       "no-undef": "off"
     }
+  },
+  "directories": {
+    "test": "tests"
   }
 }

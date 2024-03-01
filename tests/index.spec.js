@@ -16,7 +16,7 @@ describe('MV Liquidjs filters and Tags', () => {
       const template = '{% majorNum 1st Major Num %} {% majorNum %} {% majorNum 3rd Major Num %}'
       const output = await engine.parseAndRender(template)
 
-      expect(output).toEqual('<h1 class="major-number-title">1 1st Major Num</h1> <h1 class="major-number-title">2</h1> <h1 class="major-number-title">3 3rd Major Num</h1>')
+      expect(output).toEqual('1. 1st Major Num 2. 3. 3rd Major Num')
     })
   })
 
@@ -25,7 +25,7 @@ describe('MV Liquidjs filters and Tags', () => {
       const template = '{% minorNum %} {% minorNum %} {% minorNum %}'
       const output = await engine.parseAndRender(template)
 
-      expect(output).toEqual('<h2 class="minor-number-title">0.1</h2> <h2 class="minor-number-title">0.2</h2> <h2 class="minor-number-title">0.3</h2>')
+      expect(output).toEqual('0.1. 0.2. 0.3.')
     })
   })
 
@@ -34,7 +34,7 @@ describe('MV Liquidjs filters and Tags', () => {
       const template = '{% subMinorNum %} {% subMinorNum %} {% subMinorNum %}'
       const output = await engine.parseAndRender(template)
 
-      expect(output).toEqual('<h3 class="sub-minor-number-title">0.0.1</h3> <h3 class="sub-minor-number-title">0.0.2</h3> <h3 class="sub-minor-number-title">0.0.3</h3>')
+      expect(output).toEqual('0.0.1. 0.0.2. 0.0.3.')
     })
   })
 
