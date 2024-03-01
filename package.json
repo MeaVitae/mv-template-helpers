@@ -1,7 +1,7 @@
 {
-  "name": "@meavitae/mv-filters",
+  "name": "@meavitae/mv-template-helpers",
   "version": "1.0.0",
-  "description": "Meavitae Filters",
+  "description": "Meavitae Template Helpers",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -13,14 +13,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/MeaVitae/mv-filters.git"
+    "url": "git+https://github.com/MeaVitae/mv-template-helpers.git"
   },
   "author": "Dan Robinson",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/MeaVitae/mv-filters/issues"
+    "url": "https://github.com/MeaVitae/mv-template-helpers/issues"
   },
-  "homepage": "https://github.com/MeaVitae/mv-filters#readme",
+  "homepage": "https://github.com/MeaVitae/mv-template-helpers#readme",
   "devDependencies": {
     "@faker-js/faker": "^8.4.1",
     "@meavitae/mv-types": "^1.0.4",
