@@ -1,7 +1,7 @@
 import genderLookup, { GenderType } from './utils/genderLookup'
 import groupStringLookup, { GroupStringType } from './utils/groupStringLookup'
 import localeLookupObject, { LocaleLookupKeys } from './utils/localeLookupObject'
-// import n2words from 'n2words'
+import n2words from 'n2words'
 import { Contact, Address, EmailAddress, PhoneNumber } from '@meavitae/mv-types'
 import { Value, Liquid, TagToken, Context, Emitter, Tag, TopLevelToken } from 'liquidjs'
 import { format } from 'date-fns'
@@ -10,14 +10,16 @@ import { titleCase } from 'title-case'
 
 type TableOfContentsEntry = { clause: number; title: string; }
 
-export default function (this: Liquid) {
+export default async function (template: string, data: object) {
+  const engine = new Liquid()
+
   let clauseArray = [0, 0, 0]
   const tableOfContentsArray: TableOfContentsEntry[] = []
   const getCurrentClause = () => clauseArray
   const setCurrentClause = (updatedTitleNumber: [number, number, number]) => { clauseArray = updatedTitleNumber }
   const addEntryToTOC = (entry: TableOfContentsEntry) => tableOfContentsArray.push(entry)
 
-  this.registerTag('majorNum', {
+  engine.registerTag('majorNum', {
     parse: function (tagToken) {
       this.majorNumTitle = String(tagToken.args)
     },
@@ -30,14 +32,14 @@ export default function (this: Liquid) {
 
       addEntryToTOC({
         clause: updatedMajorNum,
-        title: this.updatedMajorTitle
+        title: this.majorNumTitle
       })
 
       return `${updatedMajorNum}.${this.majorNumTitle && (' ' + this.majorNumTitle)}`
     }
   })
 
-  this.registerTag('minorNum', {
+  engine.registerTag('minorNum', {
     render: function () {
       const currentClause = getCurrentClause()
       const updatedNum = currentClause[1] + 1
@@ -48,7 +50,7 @@ export default function (this: Liquid) {
     }
   })
 
-  this.registerTag('subMinorNum', {
+  engine.registerTag('subMinorNum', {
     render: function () {
       const currentClause = getCurrentClause()
       const updatedNum = currentClause[2] + 1
@@ -59,40 +61,40 @@ export default function (this: Liquid) {
     }
   })
 
-  // this.registerFilter('numberToWords', (numberToConvert: number, locale: LocaleLookupKeys) => {
-  //   try {
-  //     if (!numberToConvert) throw new Error('No number provided')
-  //     if (typeof numberToConvert !== 'number') throw new Error('It is not a number')
+  engine.registerFilter('numberToWords', (numberToConvert: number, locale: LocaleLookupKeys) => {
+    try {
+      if (!numberToConvert) throw new Error('No number provided')
+      if (typeof numberToConvert !== 'number') throw new Error('It is not a number')
 
-  //     return this.filters.capitalize(n2words(numberToConvert, {
-  //       lang: localeLookupObject[locale]?.n2wordsRef
-  //     }))
-  //   } catch (error) {
-  //     return String(numberToConvert)
-  //   }
-  // })
+      return engine.filters.capitalize(n2words(numberToConvert, {
+        lang: localeLookupObject[locale]?.n2wordsRef
+      }))
+    } catch (error) {
+      return String(numberToConvert)
+    }
+  })
 
-  // this.registerFilter('numberToMoneyWords', (numberToConvert: number, locale: LocaleLookupKeys) => {
-  //   try {
-  //     if (!numberToConvert) throw new Error('No number provided')
-  //     if (typeof numberToConvert !== 'number') throw new Error('It is not a number')
+  engine.registerFilter('numberToMoneyWords', (numberToConvert: number, locale: LocaleLookupKeys) => {
+    try {
+      if (!numberToConvert) throw new Error('No number provided')
+      if (typeof numberToConvert !== 'number') throw new Error('It is not a number')
 
-  //     locale = localeLookupObject[locale] ? locale : 'en-GB'
+      locale = localeLookupObject[locale] ? locale : 'en-GB'
 
-  //     const numberAsWords = this.filters.numberToWords(numberToConvert, locale)
-  //     const pointIndex = numberAsWords.indexOf('point')
-  //     const currencyUnit = localeLookupObject[locale].currencyUnit[numberToConvert > 1.99 || numberToConvert < 1 ? 1 : 0]
-  //     const fractionalUnit = localeLookupObject[locale].fractionalUnit
+      const numberAsWords = engine.filters.numberToWords(numberToConvert, locale)
+      const pointIndex = numberAsWords.indexOf('point')
+      const currencyUnit = localeLookupObject[locale].currencyUnit[numberToConvert > 1.99 || numberToConvert < 1 ? 1 : 0]
+      const fractionalUnit = localeLookupObject[locale].fractionalUnit
 
-  //     return pointIndex > -1
-  //       ? `${numberAsWords.substring(0, pointIndex)}${currencyUnit} ${numberAsWords.substring(pointIndex)} ${fractionalUnit}`
-  //       : `${numberAsWords} ${currencyUnit}`
-  //   } catch (error) {
-  //     return String(numberToConvert)
-  //   }
-  // })
+      return pointIndex > -1
+        ? `${numberAsWords.substring(0, pointIndex)}${currencyUnit} ${numberAsWords.substring(pointIndex)} ${fractionalUnit}`
+        : `${numberAsWords} ${currencyUnit}`
+    } catch (error) {
+      return String(numberToConvert)
+    }
+  })
 
-  this.registerFilter('formatDate', (date: number) => {
+  engine.registerFilter('formatDate', (date: number) => {
     try {
       if (!date) throw new Error('No date provided')
 
@@ -102,7 +104,7 @@ export default function (this: Liquid) {
     }
   })
 
-  this.registerFilter('formatMoney', (moneyNumber: number, locale: LocaleLookupKeys) => {
+  engine.registerFilter('formatMoney', (moneyNumber: number, locale: LocaleLookupKeys) => {
     try {
       if (!moneyNumber) throw new Error('No money number provided')
       const localeObject = localeLookupObject[locale]
@@ -114,13 +116,13 @@ export default function (this: Liquid) {
     }
   })
 
-  this.registerFilter('fullName', (contact: Contact) => {
+  engine.registerFilter('fullName', (contact: Contact) => {
     return [contact.firstName, contact.middleNames, contact.lastName]
       .filter(name => !!name)
       .join(' ')
   })
 
-  this.registerFilter('address', (addresses: Address[]) => {
+  engine.registerFilter('address', (addresses: Address[]) => {
     const address = addresses?.[0]
     if (!address) return ''
 
@@ -129,19 +131,19 @@ export default function (this: Liquid) {
       .join(', ')
   })
 
-  this.registerFilter('phoneNumber', (phoneNumbers: PhoneNumber[]) => {
+  engine.registerFilter('phoneNumber', (phoneNumbers: PhoneNumber[]) => {
     return phoneNumbers?.[0]?.phoneNumber || ''
   })
 
-  this.registerFilter('emailAddress', (emailAddresses: EmailAddress[]) => {
+  engine.registerFilter('emailAddress', (emailAddresses: EmailAddress[]) => {
     return emailAddresses?.[0]?.email || ''
   })
 
-  this.registerFilter('genderLookup', (genderType: GenderType) => {
+  engine.registerFilter('genderLookup', (genderType: GenderType) => {
     return genderLookup[genderType] || genderLookup.unknown
   })
 
-  this.registerFilter('groupNameRelationship', (groupName: GroupStringType) => {
+  engine.registerFilter('groupNameRelationship', (groupName: GroupStringType) => {
     if (!groupName) return ''
 
     return groupStringLookup[groupName]
@@ -149,34 +151,50 @@ export default function (this: Liquid) {
       : `my ${groupName}`
   })
 
-  // this.registerFilter('contact', (contact: Contact) => ({
+  // liquid.registerFilter('contact', (contact: Contact) => ({
   //   ...contact,
-  //   contactFullName: this.filters.fullName(contact),
-  //   contactDateOfBirthString: this.filters.formatDate(contact.dateOfBirth),
-  //   contactAddress: this.filters.address(contact.addresses),
-  //   contactEmailAddress: this.filters.emailAddress(contact.emailAddresses),
-  //   contactPhoneNumber: this.filters.phoneNumber(contact.phoneNumbers),
-  //   ...this.filters.genderLookup(contact.genderType)
+  //   contactFullName: liquid.filters.fullName(contact),
+  //   contactDateOfBirthString: liquid.filters.formatDate(contact.dateOfBirth),
+  //   contactAddress: liquid.filters.address(contact.addresses),
+  //   contactEmailAddress: liquid.filters.emailAddress(contact.emailAddresses),
+  //   contactPhoneNumber: liquid.filters.phoneNumber(contact.phoneNumbers),
+  //   ...liquid.filters.genderLookup(contact.genderType)
   // }))
 
-  this.registerFilter('contactsToNameAndAddressString', (contacts: Contact) => {
+  engine.registerFilter('contactsToNameAndAddressString', (contacts: Contact) => {
     if (!Array.isArray(contacts)) return ''
 
     return contacts.reduce((accumulator, currentContact, index, sourceArray) => {
-      const selectedAddress = titleCase(this.filters.address(currentContact.addresses))
+      const selectedAddress = titleCase(engine.filters.address(currentContact.addresses))
       const delimiter = (index + 1) < sourceArray.length ? ',' : ' and'
 
       return accumulator
-        ? accumulator.concat(`${delimiter} `, `${this.filters.fullName((currentContact))} of ${selectedAddress}`)
-        : `${this.filters.fullName((currentContact))} of ${selectedAddress}`
+        ? accumulator.concat(`${delimiter} `, `${engine.filters.fullName((currentContact))} of ${selectedAddress}`)
+        : `${engine.filters.fullName((currentContact))} of ${selectedAddress}`
     }, '')
   })
 
-  this.registerFilter('pageBreak', () => {
+  engine.registerFilter('pageBreak', () => {
     return '<div class="page-break">&nbsp</div>'
   })
 
-  this.registerFilter('titlecase', (title: string) => {
+  engine.registerFilter('titlecase', (title: string) => {
     return titleCase(String(title))
   })
+
+  const openTagTOC = '<nav id="toc">'
+  const closeTagTOC = '</nav>'
+
+  engine.registerTag('toc', {
+    render: function () {
+      return `${openTagTOC}${closeTagTOC}`
+    }
+  })
+
+  const renderedTemplate = (await engine.parseAndRender(template, data))
+
+  const tableOfContentsHtml = tableOfContentsArray.length
+    ? openTagTOC + 'Table of Contents' + '<ol>' + tableOfContentsArray.reduce((accumulator, { title }) => `${accumulator}<li>${title}</li>`, '') + '</ol>' + closeTagTOC
+    : ''
+  return renderedTemplate.replace(`${openTagTOC}${closeTagTOC}`, tableOfContentsHtml)
 }

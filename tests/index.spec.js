@@ -1,20 +1,15 @@
-import mvTemplateHelpers from '../src'
+import mvTemplate from '../src'
 import testData from './json/data.json'
 import { Liquid } from 'liquidjs'
 import { test, describe, expect, beforeEach } from 'vitest'
 
 let engine
 
-beforeEach(async () => {
-  engine = new Liquid()
-  engine.plugin(mvTemplateHelpers)
-})
-
 describe('MV Liquidjs filters and Tags', () => {
   describe('majorNum Tag', () => {
     test('it increments the major number by one everytime called and outputs', async () => {
       const template = '{% majorNum 1st Major Num %} {% if false %}{% majorNum %} {% endif %}{% majorNum 3rd Major Num %}'
-      const output = await engine.parseAndRender(template)
+      const output = await mvTemplate(template)
 
       expect(output).toEqual('1. 1st Major Num 2. 3rd Major Num')
     })
@@ -23,7 +18,7 @@ describe('MV Liquidjs filters and Tags', () => {
   describe('minorNum Tag', () => {
     test('it increments the minor number by one everytime called and outputs', async () => {
       const template = '{% minorNum %} {% minorNum %} {% minorNum %}'
-      const output = await engine.parseAndRender(template)
+      const output = await mvTemplate(template)
 
       expect(output).toEqual('0.1. 0.2. 0.3.')
     })
@@ -32,7 +27,7 @@ describe('MV Liquidjs filters and Tags', () => {
   describe('subMinorNum Tag', () => {
     test('it increments the sub minor number by one everytime called and outputs', async () => {
       const template = '{% subMinorNum %} {% subMinorNum %} {% subMinorNum %}'
-      const output = await engine.parseAndRender(template)
+      const output = await mvTemplate(template)
 
       expect(output).toEqual('0.0.1. 0.0.2. 0.0.3.')
     })
@@ -41,7 +36,7 @@ describe('MV Liquidjs filters and Tags', () => {
   describe('numberToWords filter', () => {
     test('it returns the correctly formatted number in words', async () => {
       const template = '{{ 3684 | numberToWords: "en-GB" }}'
-      const output = await engine.parseAndRender(template)
+      const output = await mvTemplate(template)
 
       expect(output).toEqual('Three thousand six hundred and eighty-four')
     })
@@ -50,7 +45,7 @@ describe('MV Liquidjs filters and Tags', () => {
   describe('numberToMoneyWords filter', () => {
     test('it returns the correctly formatted number in money words', async () => {
       const template = '{{ 3684 | numberToMoneyWords: "en-GB" }}'
-      const output = await engine.parseAndRender(template)
+      const output = await mvTemplate(template)
 
       expect(output).toEqual('Three thousand six hundred and eighty-four pounds')
     })
@@ -59,7 +54,7 @@ describe('MV Liquidjs filters and Tags', () => {
   describe('Format Money filter', () => {
     test('it returns the correctly formatted money string', async () => {
       const template = '{{ 3684 | formatMoney: "en-GB" }}'
-      const output = await engine.parseAndRender(template)
+      const output = await mvTemplate(template)
 
       expect(output).toEqual('£3,684.00')
     })
@@ -68,7 +63,7 @@ describe('MV Liquidjs filters and Tags', () => {
   describe('Format Date filter', () => {
     test('it returns the correctly formatted date string', async () => {
       const template = '{{ contact.dateOfBirth | formatDate }}'
-      const output = await engine.parseAndRender(template, testData)
+      const output = await mvTemplate(template, testData)
 
       expect(output).toEqual('25th day of July, 2018')
     })
@@ -77,7 +72,7 @@ describe('MV Liquidjs filters and Tags', () => {
   describe('Address filter', () => {
     test('it returns the correctly formatted first address', async () => {
       const template = '{{ contact.addresses | address }}'
-      const output = await engine.parseAndRender(template, testData)
+      const output = await mvTemplate(template, testData)
 
       expect(output).toEqual('214 Collins Lane, Farmington, Illinois, 67865-7840, Macao')
     })
@@ -86,7 +81,7 @@ describe('MV Liquidjs filters and Tags', () => {
   describe('Telephone filter', () => {
     test('it returns the first telephone number', async () => {
       const template = '{{ contact.phoneNumbers | phoneNumber }}'
-      const output = await engine.parseAndRender(template, testData)
+      const output = await mvTemplate(template, testData)
 
       expect(output).toEqual('+236 62 46 6973')
     })
@@ -95,7 +90,7 @@ describe('MV Liquidjs filters and Tags', () => {
   describe('Email filter', () => {
     test('it returns the first Email Address', async () => {
       const template = '{{ contact.emailAddresses | emailAddress }}'
-      const output = await engine.parseAndRender(template, testData)
+      const output = await mvTemplate(template, testData)
 
       expect(output).toEqual('carolinejankowski408@uol.info')
     })
@@ -104,7 +99,7 @@ describe('MV Liquidjs filters and Tags', () => {
   describe('contactsToNameAndAddressString filter', () => {
     test('it returns a string of contact names and addresses', async () => {
       const template = '{{ contacts | contactsToNameAndAddressString }}'
-      const output = await engine.parseAndRender(template, testData)
+      const output = await mvTemplate(template, testData)
 
       expect(output).toEqual('Paul Smith of 2 Jim Lane, Jimmville, Jimtown, 67865-7840, Countrystan, James Frank Lees of 214 Collins Lane, Farmington, Illinois, 67865-7840, Macao and Paul Morpeth of 2 Big Street, Bigcity, Bigsville, Ert3452-453, Bigcountrystan')
     })
@@ -113,9 +108,18 @@ describe('MV Liquidjs filters and Tags', () => {
   describe('Titlecase filter', () => {
     test('it returns the string with every word uppercase first letter', async () => {
       const template = '{{ "this is the string" | titlecase }}'
-      const output = await engine.parseAndRender(template)
+      const output = await mvTemplate(template)
 
       expect(output).toEqual('This Is the String')
+    })
+  })
+
+  describe('majorNum Tag', () => {
+    test('it increments the major number by one everytime called and outputs', async () => {
+      const template = '{% toc %}{% majorNum 1st Major Num %} {% if false %}{% majorNum %} {% endif %}{% majorNum 3rd Major Num %}'
+      const output = await mvTemplate(template)
+
+      expect(output).toEqual('<nav id="toc">Table of Contents<ol><li>1st Major Num</li><li>3rd Major Num</li></ol></nav>1. 1st Major Num 2. 3rd Major Num')
     })
   })
 })

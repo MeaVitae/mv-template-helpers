@@ -1,2 +1,1 @@
-import { Liquid } from 'liquidjs';
-export default function (this: Liquid): void;
+export default function (template: string, data: object): Promise<any>;
