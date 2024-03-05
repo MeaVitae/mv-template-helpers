@@ -4,10 +4,8 @@
 
 ```
 
-import { Liquid } from 'liquidjs'
-import mvTemplateHelpers from '@meavitae/mv-template-helpers'
+import mvTemplateEngine from '@meavitae/mv-template-helpers'
 
-const liquid = new Liquid()
-liquid.plugin(mvTemplateHelpers)
+const renderedTemplate = await mvTemplateEngine(template, data)
 
 ```
