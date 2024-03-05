@@ -1,9 +1,9 @@
 import genderLookup, { GenderType } from './utils/genderLookup'
 import groupStringLookup, { GroupStringType } from './utils/groupStringLookup'
 import localeLookupObject, { LocaleLookupKeys } from './utils/localeLookupObject'
-import n2words from 'n2words'
 import { Contact, Address, EmailAddress, PhoneNumber } from '@meavitae/mv-types'
-import { Value, Liquid, TagToken, Context, Emitter, Tag, TopLevelToken } from 'liquidjs'
+import { Liquid } from 'liquidjs'
+import { ToWords } from 'to-words'
 import { format } from 'date-fns'
 import { formatMoney } from 'accounting'
 import { titleCase } from 'title-case'
@@ -66,9 +66,8 @@ export default async function (template: string, data: object) {
       if (!numberToConvert) throw new Error('No number provided')
       if (typeof numberToConvert !== 'number') throw new Error('It is not a number')
 
-      return engine.filters.capitalize(n2words(numberToConvert, {
-        lang: localeLookupObject[locale]?.n2wordsRef
-      }))
+      const toWords = new ToWords({ localeCode: locale })
+      return engine.filters.capitalize(toWords.convert((numberToConvert)))
     } catch (error) {
       return String(numberToConvert)
     }
@@ -150,16 +149,6 @@ export default async function (template: string, data: object) {
       ? groupStringLookup[groupName]
       : `my ${groupName}`
   })
-
-  // liquid.registerFilter('contact', (contact: Contact) => ({
-  //   ...contact,
-  //   contactFullName: liquid.filters.fullName(contact),
-  //   contactDateOfBirthString: liquid.filters.formatDate(contact.dateOfBirth),
-  //   contactAddress: liquid.filters.address(contact.addresses),
-  //   contactEmailAddress: liquid.filters.emailAddress(contact.emailAddresses),
-  //   contactPhoneNumber: liquid.filters.phoneNumber(contact.phoneNumbers),
-  //   ...liquid.filters.genderLookup(contact.genderType)
-  // }))
 
   engine.registerFilter('contactsToNameAndAddressString', (contacts: Contact) => {
     if (!Array.isArray(contacts)) return ''

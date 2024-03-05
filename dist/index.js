@@ -1,8 +1,8 @@
 import genderLookup from './utils/genderLookup';
 import groupStringLookup from './utils/groupStringLookup';
 import localeLookupObject from './utils/localeLookupObject';
-import n2words from 'n2words';
 import { Liquid } from 'liquidjs';
+import { ToWords } from 'to-words';
 import { format } from 'date-fns';
 import { formatMoney } from 'accounting';
 import { titleCase } from 'title-case';
@@ -50,9 +50,8 @@ export default async function (template, data) {
                 throw new Error('No number provided');
             if (typeof numberToConvert !== 'number')
                 throw new Error('It is not a number');
-            return engine.filters.capitalize(n2words(numberToConvert, {
-                lang: localeLookupObject[locale]?.n2wordsRef
-            }));
+            const toWords = new ToWords({ localeCode: locale });
+            return engine.filters.capitalize(toWords.convert((numberToConvert)));
         }
         catch (error) {
             return String(numberToConvert);
@@ -129,15 +128,6 @@ export default async function (template, data) {
             ? groupStringLookup[groupName]
             : `my ${groupName}`;
     });
-    // liquid.registerFilter('contact', (contact: Contact) => ({
-    //   ...contact,
-    //   contactFullName: liquid.filters.fullName(contact),
-    //   contactDateOfBirthString: liquid.filters.formatDate(contact.dateOfBirth),
-    //   contactAddress: liquid.filters.address(contact.addresses),
-    //   contactEmailAddress: liquid.filters.emailAddress(contact.emailAddresses),
-    //   contactPhoneNumber: liquid.filters.phoneNumber(contact.phoneNumbers),
-    //   ...liquid.filters.genderLookup(contact.genderType)
-    // }))
     engine.registerFilter('contactsToNameAndAddressString', (contacts) => {
         if (!Array.isArray(contacts))
             return '';

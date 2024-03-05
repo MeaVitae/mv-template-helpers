@@ -1,9 +1,6 @@
 import mvTemplate from '../src'
 import testData from './json/data.json'
-import { Liquid } from 'liquidjs'
-import { test, describe, expect, beforeEach } from 'vitest'
-
-let engine
+import { test, describe, expect } from 'vitest'
 
 describe('MV Liquidjs filters and Tags', () => {
   describe('majorNum Tag', () => {
@@ -35,19 +32,19 @@ describe('MV Liquidjs filters and Tags', () => {
 
   describe('numberToWords filter', () => {
     test('it returns the correctly formatted number in words', async () => {
-      const template = '{{ 3684 | numberToWords: "en-GB" }}'
+      const template = '{{ 3684.23 | numberToWords: "en-GB" }}'
       const output = await mvTemplate(template)
 
-      expect(output).toEqual('Three thousand six hundred and eighty-four')
+      expect(output).toEqual('Three thousand six hundred eighty four point twenty three')
     })
   })
 
   describe('numberToMoneyWords filter', () => {
     test('it returns the correctly formatted number in money words', async () => {
-      const template = '{{ 3684 | numberToMoneyWords: "en-GB" }}'
+      const template = '{{ 211385.96 | numberToMoneyWords: "en-GB" }}'
       const output = await mvTemplate(template)
 
-      expect(output).toEqual('Three thousand six hundred and eighty-four pounds')
+      expect(output).toEqual('Two hundred eleven thousand three hundred eighty five pounds point ninety six pence')
     })
   })
 
