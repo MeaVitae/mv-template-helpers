@@ -61,7 +61,7 @@ export default async function (template: string, data: object) {
     }
   })
 
-  engine.registerFilter('numberToWords', (numberToConvert: number, locale: LocaleLookupKeys) => {
+  engine.registerFilter('numberToWords', (numberToConvert: number, locale: LocaleLookupKeys = 'en-GB') => {
     try {
       if (!numberToConvert) throw new Error('No number provided')
       if (typeof numberToConvert !== 'number') throw new Error('It is not a number')
@@ -73,7 +73,7 @@ export default async function (template: string, data: object) {
     }
   })
 
-  engine.registerFilter('numberToMoneyWords', (numberToConvert: number, locale: LocaleLookupKeys) => {
+  engine.registerFilter('numberToMoneyWords', (numberToConvert: number, locale: LocaleLookupKeys = 'en-GB') => {
     try {
       if (!numberToConvert) throw new Error('No number provided')
       if (typeof numberToConvert !== 'number') throw new Error('It is not a number')

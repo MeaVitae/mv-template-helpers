@@ -44,7 +44,7 @@ export default async function (template, data) {
             return `${currentClause[0]}.${currentClause[1]}.${updatedNum}.`;
         }
     });
-    engine.registerFilter('numberToWords', (numberToConvert, locale) => {
+    engine.registerFilter('numberToWords', (numberToConvert, locale = 'en-GB') => {
         try {
             if (!numberToConvert)
                 throw new Error('No number provided');
@@ -57,7 +57,7 @@ export default async function (template, data) {
             return String(numberToConvert);
         }
     });
-    engine.registerFilter('numberToMoneyWords', (numberToConvert, locale) => {
+    engine.registerFilter('numberToMoneyWords', (numberToConvert, locale = 'en-GB') => {
         try {
             if (!numberToConvert)
                 throw new Error('No number provided');
