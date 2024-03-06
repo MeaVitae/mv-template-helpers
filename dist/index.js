@@ -139,8 +139,10 @@ export default async function (template, data) {
                 : `${engine.filters.fullName((currentContact))} of ${selectedAddress}`;
         }, '');
     });
-    engine.registerFilter('pageBreak', () => {
-        return '<div class="page-break">&nbsp</div>';
+    engine.registerTag('pageBreak', {
+        render: function () {
+            return '<div class="page-break">&nbsp</div>';
+        }
     });
     engine.registerFilter('titlecase', (title) => {
         return titleCase(String(title));

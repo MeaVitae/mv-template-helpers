@@ -163,8 +163,10 @@ export default async function (template: string, data: object) {
     }, '')
   })
 
-  engine.registerFilter('pageBreak', () => {
-    return '<div class="page-break">&nbsp</div>'
+  engine.registerTag('pageBreak', {
+    render: function () {
+      return '<div class="page-break">&nbsp</div>'
+    }
   })
 
   engine.registerFilter('titlecase', (title: string) => {
