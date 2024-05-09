@@ -26,4 +26,4 @@ declare const genderLookup: {
     };
 };
 export default genderLookup;
-export declare type GenderType = keyof typeof genderLookup;
+export type GenderType = keyof typeof genderLookup;

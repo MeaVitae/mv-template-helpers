@@ -1,10 +1,10 @@
 import genderLookup from './utils/genderLookup';
 import groupStringLookup from './utils/groupStringLookup';
-import localeLookupObject from './utils/localeLookupObject';
 import { Liquid } from 'liquidjs';
 import { ToWords } from 'to-words';
 import { format } from 'date-fns';
 import { formatMoney } from 'accounting';
+import { localeLookupObject, getValidLocale } from './utils/locales';
 import { titleCase } from 'title-case';
 export default async function (template, data) {
     const engine = new Liquid();
@@ -50,6 +50,7 @@ export default async function (template, data) {
                 throw new Error('No number provided');
             if (typeof numberToConvert !== 'number')
                 throw new Error('It is not a number');
+            locale = getValidLocale(locale);
             const toWords = new ToWords({ localeCode: locale });
             return engine.filters.capitalize(toWords.convert((numberToConvert)));
         }
@@ -63,7 +64,7 @@ export default async function (template, data) {
                 throw new Error('No number provided');
             if (typeof numberToConvert !== 'number')
                 throw new Error('It is not a number');
-            locale = localeLookupObject[locale] ? locale : 'en-GB';
+            locale = getValidLocale(locale);
             const numberAsWords = engine.filters.numberToWords(numberToConvert, locale);
             const pointIndex = numberAsWords.indexOf('point');
             const currencyUnit = localeLookupObject[locale].currencyUnit[numberToConvert > 1.99 || numberToConvert < 1 ? 1 : 0];
@@ -90,6 +91,7 @@ export default async function (template, data) {
         try {
             if (!moneyNumber)
                 throw new Error('No money number provided');
+            locale = getValidLocale(locale);
             const localeObject = localeLookupObject[locale];
             if (!localeObject)
                 throw new Error('Locale not found');

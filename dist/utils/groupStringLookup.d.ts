@@ -4,4 +4,4 @@ declare const groupStringLookup: {
     viewersOfMyAccount: string;
 };
 export default groupStringLookup;
-export declare type GroupStringType = keyof typeof groupStringLookup;
+export type GroupStringType = keyof typeof groupStringLookup;

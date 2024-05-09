@@ -21,6 +21,9 @@ export const localeLookupObject = {
   }
 }
 
+type CountriesObject = typeof countries[0]
+type CountriesIsoLookupObject = { [iso: string]: CountriesObject & { locale: string; isInLocaleLookup: boolean; } }
+
 export const countriesIsoLookupObject = countries.reduce((accumulator, country) => {
   const locale = country.default_locale.replace('_', '-')
   const newCountryObject = {
@@ -34,7 +37,7 @@ export const countriesIsoLookupObject = countries.reduce((accumulator, country) 
     [country.alpha2]: newCountryObject,
     [country.alpha3]: newCountryObject
   }
-}, {})
+}, {} as CountriesIsoLookupObject)
 
 export const getValidLocale = (locale: string) => {
   return (localeLookupObject[locale] && locale) ||
