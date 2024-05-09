@@ -1,11 +1,11 @@
 import genderLookup, { GenderType } from './utils/genderLookup'
 import groupStringLookup, { GroupStringType } from './utils/groupStringLookup'
-import localeLookupObject, { LocaleLookupKeys } from './utils/localeLookupObject'
 import { Contact, Address, EmailAddress, PhoneNumber } from '@meavitae/mv-types'
 import { Liquid } from 'liquidjs'
 import { ToWords } from 'to-words'
 import { format } from 'date-fns'
 import { formatMoney } from 'accounting'
+import { localeLookupObject, countriesIsoLookupObject, getValidLocale, LocaleLookupKeys } from './utils/locales'
 import { titleCase } from 'title-case'
 
 type TableOfContentsEntry = { clause: number; title: string; }
@@ -66,6 +66,7 @@ export default async function (template: string, data: object) {
       if (!numberToConvert) throw new Error('No number provided')
       if (typeof numberToConvert !== 'number') throw new Error('It is not a number')
 
+      locale = getValidLocale(locale)
       const toWords = new ToWords({ localeCode: locale })
       return engine.filters.capitalize(toWords.convert((numberToConvert)))
     } catch (error) {
@@ -78,7 +79,7 @@ export default async function (template: string, data: object) {
       if (!numberToConvert) throw new Error('No number provided')
       if (typeof numberToConvert !== 'number') throw new Error('It is not a number')
 
-      locale = localeLookupObject[locale] ? locale : 'en-GB'
+      locale = getValidLocale(locale)
 
       const numberAsWords = engine.filters.numberToWords(numberToConvert, locale)
       const pointIndex = numberAsWords.indexOf('point')
@@ -106,6 +107,8 @@ export default async function (template: string, data: object) {
   engine.registerFilter('formatMoney', (moneyNumber: number, locale: LocaleLookupKeys) => {
     try {
       if (!moneyNumber) throw new Error('No money number provided')
+
+      locale = getValidLocale(locale)
       const localeObject = localeLookupObject[locale]
       if (!localeObject) throw new Error('Locale not found')
 

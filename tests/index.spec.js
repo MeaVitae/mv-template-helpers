@@ -46,6 +46,22 @@ describe('MV Liquidjs filters and Tags', () => {
 
       expect(output).toEqual('Two hundred eleven thousand three hundred eighty five pounds point ninety six pence')
     })
+
+    describe('ISO country codes', () => {
+      test('it returns the correctly formatted number in money words using 2 digit ISO', async () => {
+        const template = '{{ 211385.96 | numberToMoneyWords: "US" }}'
+        const output = await mvTemplate(template)
+
+        expect(output).toEqual('Two hundred eleven thousand three hundred eighty five dollars point ninety six cents')
+      })
+
+      test('it returns the correctly formatted number in money words using 3 digit ISO', async () => {
+        const template = '{{ 211385.96 | numberToMoneyWords: "USA" }}'
+        const output = await mvTemplate(template)
+
+        expect(output).toEqual('Two hundred eleven thousand three hundred eighty five dollars point ninety six cents')
+      })
+    })
   })
 
   describe('Format Money filter', () => {
@@ -54,6 +70,15 @@ describe('MV Liquidjs filters and Tags', () => {
       const output = await mvTemplate(template)
 
       expect(output).toEqual('£3,684.00')
+    })
+
+    describe('ISO country codes', () => {
+      test('it returns the correctly formatted money string', async () => {
+        const template = '{{ 3684 | formatMoney: "US" }}'
+        const output = await mvTemplate(template)
+
+        expect(output).toEqual('$3,684.00')
+      })
     })
   })
 
