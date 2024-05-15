@@ -32,8 +32,18 @@ export const countriesIsoLookupObject = countries.reduce((accumulator, country) 
         [country.alpha3]: newCountryObject
     };
 }, {});
-export const getValidLocale = (locale) => {
-    return (localeLookupObject[locale] && locale) ||
-        (countriesIsoLookupObject[locale]?.isInLocaleLookup && countriesIsoLookupObject[locale].locale) ||
+export const currencyLookupObject = Object.entries(localeLookupObject).reduce((accumulator, localeArray) => {
+    return {
+        ...accumulator,
+        [localeArray[1].isoCode]: {
+            ...localeArray[1],
+            locale: localeArray[0]
+        }
+    };
+}, {});
+export const getValidLocale = (localeOrCurrency) => {
+    return (localeLookupObject[localeOrCurrency] && localeOrCurrency) ||
+        (countriesIsoLookupObject[localeOrCurrency]?.isInLocaleLookup && countriesIsoLookupObject[localeOrCurrency].locale) ||
+        (currencyLookupObject[localeOrCurrency] && currencyLookupObject[localeOrCurrency].locale) ||
         'en-GB';
 };

@@ -27,6 +27,22 @@ type CountriesIsoLookupObject = {
     };
 };
 export declare const countriesIsoLookupObject: CountriesIsoLookupObject;
-export declare const getValidLocale: (locale: string) => any;
+export declare const currencyLookupObject: [string, {
+    isoCode: string;
+    symbol: string;
+    currencyUnit: string[];
+    fractionalUnit: string;
+} | {
+    isoCode: string;
+    symbol: string;
+    currencyUnit: string[];
+    fractionalUnit: string;
+} | {
+    isoCode: string;
+    symbol: string;
+    currencyUnit: string[];
+    fractionalUnit: string;
+}];
+export declare const getValidLocale: (localeOrCurrency: string) => any;
 export type LocaleLookupKeys = keyof typeof localeLookupObject;
 export {};

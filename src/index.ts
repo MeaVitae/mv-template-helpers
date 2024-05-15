@@ -5,7 +5,7 @@ import { Liquid } from 'liquidjs'
 import { ToWords } from 'to-words'
 import { format } from 'date-fns'
 import { formatMoney } from 'accounting'
-import { localeLookupObject, countriesIsoLookupObject, getValidLocale, LocaleLookupKeys } from './utils/locales'
+import { localeLookupObject, getValidLocale, LocaleLookupKeys } from './utils/locales'
 import { titleCase } from 'title-case'
 
 type TableOfContentsEntry = { clause: number; title: string; }
@@ -74,12 +74,12 @@ export default async function (template: string, data: object) {
     }
   })
 
-  engine.registerFilter('numberToMoneyWords', (numberToConvert: number, locale: LocaleLookupKeys = 'en-GB') => {
+  engine.registerFilter('numberToMoneyWords', (numberToConvert: number, localeOrCurrency: LocaleLookupKeys = 'en-GB') => {
     try {
       if (!numberToConvert) throw new Error('No number provided')
       if (typeof numberToConvert !== 'number') throw new Error('It is not a number')
 
-      locale = getValidLocale(locale)
+      const locale = getValidLocale(localeOrCurrency)
 
       const numberAsWords = engine.filters.numberToWords(numberToConvert, locale)
       const pointIndex = numberAsWords.indexOf('point')
@@ -104,11 +104,11 @@ export default async function (template: string, data: object) {
     }
   })
 
-  engine.registerFilter('formatMoney', (moneyNumber: number, locale: LocaleLookupKeys) => {
+  engine.registerFilter('formatMoney', (moneyNumber: number, localeOrCurrency: LocaleLookupKeys) => {
     try {
       if (!moneyNumber) throw new Error('No money number provided')
 
-      locale = getValidLocale(locale)
+      const locale = getValidLocale(localeOrCurrency)
       const localeObject = localeLookupObject[locale]
       if (!localeObject) throw new Error('Locale not found')
 

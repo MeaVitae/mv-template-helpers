@@ -58,13 +58,13 @@ export default async function (template, data) {
             return String(numberToConvert);
         }
     });
-    engine.registerFilter('numberToMoneyWords', (numberToConvert, locale = 'en-GB') => {
+    engine.registerFilter('numberToMoneyWords', (numberToConvert, localeOrCurrency = 'en-GB') => {
         try {
             if (!numberToConvert)
                 throw new Error('No number provided');
             if (typeof numberToConvert !== 'number')
                 throw new Error('It is not a number');
-            locale = getValidLocale(locale);
+            const locale = getValidLocale(localeOrCurrency);
             const numberAsWords = engine.filters.numberToWords(numberToConvert, locale);
             const pointIndex = numberAsWords.indexOf('point');
             const currencyUnit = localeLookupObject[locale].currencyUnit[numberToConvert > 1.99 || numberToConvert < 1 ? 1 : 0];
@@ -87,11 +87,11 @@ export default async function (template, data) {
             return String(date);
         }
     });
-    engine.registerFilter('formatMoney', (moneyNumber, locale) => {
+    engine.registerFilter('formatMoney', (moneyNumber, localeOrCurrency) => {
         try {
             if (!moneyNumber)
                 throw new Error('No money number provided');
-            locale = getValidLocale(locale);
+            const locale = getValidLocale(localeOrCurrency);
             const localeObject = localeLookupObject[locale];
             if (!localeObject)
                 throw new Error('Locale not found');
