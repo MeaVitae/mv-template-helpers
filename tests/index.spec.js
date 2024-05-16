@@ -65,10 +65,10 @@ describe('MV Liquidjs filters and Tags', () => {
 
     describe('Currency', () => {
       test('it returns the correctly formatted number in money words passing in currency code', async () => {
-        const template = '{{ 211385.96 | numberToMoneyWords: "USD" }}'
+        const template = '{{ 211385.96 | numberToMoneyWords: "EUR" }}'
         const output = await mvTemplate(template)
 
-        expect(output).toEqual('Two hundred eleven thousand three hundred eighty five dollars point ninety six cents')
+        expect(output).toEqual('Two hundred eleven thousand three hundred eighty five euros point ninety six cents')
       })
     })
   })
