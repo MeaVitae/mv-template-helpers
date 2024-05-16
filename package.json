@@ -1,6 +1,6 @@
 {
   "name": "@meavitae/mv-template-helpers",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "description": "Meavitae Template Helpers",
   "type": "module",
   "main": "dist/index.js",

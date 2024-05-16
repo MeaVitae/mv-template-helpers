@@ -12,12 +12,6 @@ export const localeLookupObject = {
         currencyUnit: ['dollar', 'dollars'],
         fractionalUnit: 'cents'
     },
-    'fr-FR': {
-        isoCode: 'EUR',
-        symbol: '€',
-        currencyUnit: ['euro', 'euros'],
-        fractionalUnit: 'cents'
-    },
     'en-IE': {
         isoCode: 'EUR',
         symbol: '€',

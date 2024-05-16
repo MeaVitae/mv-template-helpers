@@ -12,12 +12,6 @@ export declare const localeLookupObject: {
         currencyUnit: string[];
         fractionalUnit: string;
     };
-    'fr-FR': {
-        isoCode: string;
-        symbol: string;
-        currencyUnit: string[];
-        fractionalUnit: string;
-    };
     'en-IE': {
         isoCode: string;
         symbol: string;
@@ -34,11 +28,6 @@ type CountriesIsoLookupObject = {
 };
 export declare const countriesIsoLookupObject: CountriesIsoLookupObject;
 export declare const currencyLookupObject: [string, {
-    isoCode: string;
-    symbol: string;
-    currencyUnit: string[];
-    fractionalUnit: string;
-} | {
     isoCode: string;
     symbol: string;
     currencyUnit: string[];
