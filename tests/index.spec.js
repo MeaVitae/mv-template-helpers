@@ -1,4 +1,4 @@
-import mvTemplate from '../src'
+import mvTemplate from '../dist'
 import testData from './json/data.json'
 import { test, describe, expect } from 'vitest'
 
